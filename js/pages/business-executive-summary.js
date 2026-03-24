@@ -109,6 +109,20 @@ export function renderExecutiveSummary(container) {
                     </div>
                 </div>
 
+                <!-- How-to guide banner -->
+                <div class="mb-8 p-5 bg-slate-700 border border-slate-600 rounded-2xl text-slate-100">
+                    <h2 class="text-base font-bold flex items-center gap-2 mb-3 text-white">
+                        <svg class="w-5 h-5 text-brand-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        About This Report & How It Connects to the Platform
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs bg-slate-800/60 p-4 rounded-xl border border-slate-600 text-slate-300">
+                        <div><strong class="block mb-1 text-white">📋 Controls Mapping</strong>Compliance % flows from the matrix directly into fine-exposure and reputational risk calculations here.</div>
+                        <div><strong class="block mb-1 text-white">🔧 Implementation Dashboard</strong>Phase completion statuses drive the Q1–Q4 Roadmap milestone indicators and the Strategic Alignment table.</div>
+                        <div><strong class="block mb-1 text-white">📊 Compliance Dashboard</strong>Maturity scores and risk posture aggregated there are used to calculate your Operational Inefficiency cost here.</div>
+                        <div><strong class="block mb-1 text-white">📈 This Page</strong>Translate all technical governance data into board-ready financial impact statements. Enter your annual revenue above to recalculate everything live.</div>
+                    </div>
+                </div>
+
                 <!-- Exec Summary Paragraph -->
                 <div class="mb-8 p-8 bg-gradient-to-br from-slate-800 to-slate-900 text-white rounded-2xl shadow-xl">
                     <h2 class="text-xl font-bold text-slate-100 mb-4 flex items-center gap-2">

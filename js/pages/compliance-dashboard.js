@@ -130,6 +130,20 @@ export function renderComplianceDashboard(container) {
                 </div>
             </div>
 
+            <!-- How-to guide banner -->
+            <div class="mb-8 p-5 bg-blue-50 border border-blue-200 rounded-2xl text-blue-900">
+                <h2 class="text-base font-bold flex items-center gap-2 mb-3">
+                    <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    About This Dashboard & How It Connects to the Platform
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs bg-white/60 p-4 rounded-xl border border-blue-100 text-slate-700">
+                    <div><strong class="block mb-1 text-slate-800">📋 Controls Mapping</strong>Feeds your per-artifact compliance statuses and evidence files directly into the charts and metrics on this page.</div>
+                    <div><strong class="block mb-1 text-slate-800">🔧 Implementation Dashboard</strong>Each completed phase (1–6) contributes data to the Governance Maturity Radar and policy coverage metrics here.</div>
+                    <div><strong class="block mb-1 text-slate-800">📊 This Page</strong>Aggregates all data into visual coverage charts, highlights non-compliant controls, and auto-generates improvement recommendations.</div>
+                    <div><strong class="block mb-1 text-slate-800">📈 Executive Summary</strong>Uses the compliance % from here to calculate financial fine exposure and strategic risk roadmaps for leadership.</div>
+                </div>
+            </div>
+
             <!-- Exec Summary -->
             <div class="mb-8 p-6 glass-card rounded-2xl border border-slate-200 shadow-sm">
                 <h2 class="text-xl font-bold text-slate-800 mb-3">Executive Summary</h2>

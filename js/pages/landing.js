@@ -4,6 +4,7 @@
  */
 
 import { saveCompanyData } from '../storage.js';
+import { saveAuditSession, loadAuditSession, clearAllData } from '../session-manager.js';
 
 export function renderLanding(container) {
     const template = `
@@ -139,11 +140,46 @@ export function renderLanding(container) {
                 </div>
             </div>
         </div>
-        <div class="mt-8 text-center pb-8" id="reset-section">
-            <button id="btn-reset-data" type="button" class="text-sm font-semibold text-slate-500 hover:text-red-600 transition-colors flex items-center justify-center gap-2 mx-auto">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
-                Reset All Platform Data
-            </button>
+        <!-- Session Management Panel -->
+        <div class="mt-8 pb-10">
+            <div class="max-w-4xl mx-auto bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden">
+                <div class="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4"></path></svg>
+                    <h3 class="font-bold text-slate-700 text-sm">Audit Session Management</h3>
+                </div>
+                <div class="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- Save -->
+                    <div class="flex flex-col gap-2 p-4 bg-emerald-50 border border-emerald-200 rounded-xl">
+                        <h4 class="text-sm font-bold text-emerald-800 flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Save Audit Session
+                        </h4>
+                        <p class="text-xs text-emerald-700">Export all current data as a JSON file you can reload anytime to continue this audit.</p>
+                        <button id="btn-save-session" class="mt-auto px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-lg transition-colors">Download Session File</button>
+                    </div>
+                    <!-- Load/Resume -->
+                    <div class="flex flex-col gap-2 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                        <h4 class="text-sm font-bold text-blue-800 flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l4-4m0 0l4 4m-4-4v12"></path></svg>
+                            Load Previous Session
+                        </h4>
+                        <p class="text-xs text-blue-700">Import a saved session file to resume a previous audit exactly where you left off.</p>
+                        <label class="mt-auto cursor-pointer px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-lg text-center transition-colors">
+                            Load Session File
+                            <input type="file" id="input-load-session" accept=".json" class="hidden">
+                        </label>
+                    </div>
+                    <!-- Clear / New Company -->
+                    <div class="flex flex-col gap-2 p-4 bg-red-50 border border-red-200 rounded-xl">
+                        <h4 class="text-sm font-bold text-red-800 flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            New Company Audit
+                        </h4>
+                        <p class="text-xs text-red-700">Wipe all current data to start a fresh audit for a different organisation. Save first!</p>
+                        <button id="btn-clear-data" class="mt-auto px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-lg transition-colors">Clear All & Start Fresh</button>
+                    </div>
+                </div>
+            </div>
         </div>
     `;
 
@@ -175,21 +211,44 @@ export function renderLanding(container) {
         }
     });
 
-    const resetBtn = document.getElementById('btn-reset-data');
-    if (resetBtn) {
-        resetBtn.addEventListener('click', () => {
-            if (confirm('Are you sure you want to reset ALL data? This will permanently delete your compliance mappings, dashboards, and settings.')) {
-                localStorage.clear();
-                window.location.hash = ''; // Clear hash
-                window.location.reload();  // Reload the app fresh
+    // --- Session Management Listeners ---
+
+    // Save Session
+    const saveBtn = container.querySelector('#btn-save-session');
+    if (saveBtn) {
+        saveBtn.addEventListener('click', () => {
+            const filename = saveAuditSession();
+            saveBtn.textContent = `✓ Saved as ${filename}`;
+            setTimeout(() => { saveBtn.textContent = 'Download Session File'; }, 3000);
+        });
+    }
+
+    // Load Session
+    const loadInput = container.querySelector('#input-load-session');
+    if (loadInput) {
+        loadInput.addEventListener('change', async (e) => {
+            if (!e.target.files.length) return;
+            try {
+                const company = await loadAuditSession(e.target.files[0]);
+                if (confirm(`Session loaded for "${company}"! Reload the page to apply all changes?`)) {
+                    window.location.reload();
+                }
+            } catch (err) {
+                alert(err.message);
             }
         });
     }
 
-    // Hide reset if no data exists
-    if (!localStorage.getItem('companyData')) {
-        const resetSec = document.getElementById('reset-section');
-        if (resetSec) resetSec.style.display = 'none';
+    // Clear / New Company
+    const clearBtn = container.querySelector('#btn-clear-data');
+    if (clearBtn) {
+        clearBtn.addEventListener('click', () => {
+            if (confirm('⚠️ This will permanently clear ALL data for the current audit. Have you saved your session first?\n\nClick OK to wipe data and start fresh.')) {
+                clearAllData();
+                window.location.hash = '';
+                window.location.reload();
+            }
+        });
     }
 
     return container;

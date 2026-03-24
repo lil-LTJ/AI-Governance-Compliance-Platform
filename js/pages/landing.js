@@ -40,7 +40,7 @@ export function renderLanding(container) {
                         </div>
                     </div>
                     
-                    <form id="onboarding-form" class="space-y-8">
+                    <form id="onboarding-form" action="javascript:void(0)" method="post" class="space-y-8" onsubmit="return false;">
                         <!-- Company Name -->
                         <div>
                             <label for="companyName" class="block text-sm font-semibold text-slate-700 mb-2">Organization Name <span class="text-red-500">*</span></label>
@@ -186,9 +186,11 @@ export function renderLanding(container) {
     container.innerHTML = template;
 
     // Attach event listener to form
-    const form = container.querySelector('#onboarding-form');
+    const form = document.getElementById('onboarding-form');
+    if (!form) { console.error('[Landing] onboarding-form not found'); return container; }
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        e.stopPropagation();
 
         // Gather checked goals
         const checkedGoals = Array.from(form.querySelectorAll('input[name="strategicGoals"]:checked'))

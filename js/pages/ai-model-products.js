@@ -35,10 +35,20 @@ export function renderAIModelProducts(container) {
     // Helper to render cards
     const renderCards = (cardsArray) => {
         return cardsArray.map(card => `
-            <div class="kanban-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 cursor-grab active:cursor-grabbing hover:border-brand-300 hover:shadow-md transition-all duration-200 mb-3" draggable="true" id="${card.id}">
+            <div class="kanban-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 cursor-grab active:cursor-grabbing hover:border-brand-300 hover:shadow-md transition-all duration-200 mb-3 group" draggable="true" id="${card.id}">
                 <div class="flex justify-between items-start mb-2">
-                    <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${typeColors[card.type] || 'bg-slate-100'}">${card.type}</span>
-                    <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${riskColors[card.risk] || 'bg-slate-100'}">${card.risk}</span>
+                    <div class="flex flex-wrap gap-1">
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${typeColors[card.type] || 'bg-slate-100'}">${card.type}</span>
+                        <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${riskColors[card.risk] || 'bg-slate-100'}">${card.risk}</span>
+                    </div>
+                    <div class="flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <button class="btn-edit-card p-1 text-slate-400 hover:text-blue-600 transition-colors" title="Edit Card" data-id="${card.id}">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
+                        </button>
+                        <button class="btn-delete-card p-1 text-slate-400 hover:text-red-600 transition-colors" title="Delete Card" data-id="${card.id}">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
                 </div>
                 <h4 class="font-bold text-slate-800 text-sm mb-1">${card.title}</h4>
                 <p class="text-xs text-slate-500 leading-relaxed">${card.desc}</p>
@@ -153,21 +163,76 @@ export function renderAIModelProducts(container) {
 
     container.innerHTML = template;
 
-    // --- Drag and Drop Logic ---
-    const cards = container.querySelectorAll('.kanban-card');
-    const columns = container.querySelectorAll('.kanban-column');
-
-    cards.forEach(card => {
-        card.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', card.id);
-            setTimeout(() => { card.classList.add('opacity-50'); }, 0);
+    // --- Card Action Handlers ---
+    const attachCardListeners = (cardEl) => {
+        cardEl.addEventListener('dragstart', (e) => {
+            e.dataTransfer.setData('text/plain', cardEl.id);
+            setTimeout(() => { cardEl.classList.add('opacity-50'); }, 0);
         });
 
-        card.addEventListener('dragend', () => {
-            card.classList.remove('opacity-50');
+        cardEl.addEventListener('dragend', () => {
+            cardEl.classList.remove('opacity-50');
             saveBoardState();
         });
-    });
+
+        // Edit
+        const btnEdit = cardEl.querySelector('.btn-edit-card');
+        if (btnEdit) {
+            btnEdit.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btnEdit.getAttribute('data-id');
+                
+                // Find current data
+                let currentItem;
+                let currentColId;
+                Object.keys(boardData).forEach(colId => {
+                    const found = boardData[colId].find(c => c.id === id);
+                    if (found) {
+                        currentItem = found;
+                        currentColId = colId;
+                    }
+                });
+
+                if (currentItem) {
+                    const newTitle = prompt('Edit AI Model Name:', currentItem.title);
+                    if (newTitle === null) return;
+                    
+                    const newType = prompt('Edit Type (Built In-House, Acquired Platform, or Third-Party / Vendor):', currentItem.type);
+                    const newRisk = prompt('Edit Risk Classification (High Risk, Medium Risk, Low Risk):', currentItem.risk);
+                    const newDesc = prompt('Edit Description:', currentItem.desc);
+
+                    currentItem.title = newTitle || currentItem.title;
+                    currentItem.type = newType || currentItem.type;
+                    currentItem.risk = newRisk || currentItem.risk;
+                    currentItem.desc = newDesc || currentItem.desc;
+
+                    localStorage.setItem('kanbanBoardData', JSON.stringify(boardData));
+                    renderAIModelProducts(container); // Re-render everything
+                }
+            });
+        }
+
+        // Delete
+        const btnDelete = cardEl.querySelector('.btn-delete-card');
+        if (btnDelete) {
+            btnDelete.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm('Are you sure you want to delete this AI model product?')) {
+                    const id = btnDelete.getAttribute('data-id');
+                    Object.keys(boardData).forEach(colId => {
+                        boardData[colId] = boardData[colId].filter(c => c.id !== id);
+                    });
+                    localStorage.setItem('kanbanBoardData', JSON.stringify(boardData));
+                    renderAIModelProducts(container); // Re-render
+                }
+            });
+        }
+    };
+
+    container.querySelectorAll('.kanban-card').forEach(attachCardListeners);
+
+    // --- Drag and Drop Logic ---
+    const columns = container.querySelectorAll('.kanban-column');
 
     columns.forEach(col => {
         col.addEventListener('dragover', (e) => {
@@ -188,6 +253,7 @@ export function renderAIModelProducts(container) {
                 // Append the card to the column
                 col.appendChild(draggableElement);
                 updateCounts();
+                saveBoardState(); // Important to save after drop
             }
         });
     });
@@ -214,8 +280,8 @@ export function renderAIModelProducts(container) {
             const colCards = col.querySelectorAll('.kanban-card');
             colCards.forEach(card => {
                 // Reconstruct data
-                const typeSpan = card.querySelector('span:nth-child(1)');
-                const riskSpan = card.querySelector('span:nth-child(2)');
+                const typeSpan = card.querySelector('.flex.flex-wrap.gap-1 span:nth-child(1)');
+                const riskSpan = card.querySelector('.flex.flex-wrap.gap-1 span:nth-child(2)');
                 const titleNode = card.querySelector('h4');
                 const descNode = card.querySelector('p');
 
@@ -230,9 +296,10 @@ export function renderAIModelProducts(container) {
         });
 
         localStorage.setItem('kanbanBoardData', JSON.stringify(newState));
+        boardData = newState; // Keep local state in sync
     };
 
-    // New Model Modal Intercept (Demo functionality)
+    // New Model Modal
     const btnAdd = document.getElementById('btn-add-model');
     btnAdd.addEventListener('click', () => {
         const title = prompt('Enter AI Model Name:');
@@ -242,32 +309,10 @@ export function renderAIModelProducts(container) {
         const risk = prompt('Risk Classification (High Risk, Medium Risk, Low Risk):', 'Medium Risk');
         const desc = prompt('Brief description:');
 
-        const newCard = document.createElement('div');
-        newCard.className = 'kanban-card bg-white p-4 rounded-xl shadow-sm border border-slate-200 cursor-grab active:cursor-grabbing hover:border-brand-300 hover:shadow-md transition-all duration-200 mb-3';
-        newCard.draggable = true;
-        newCard.id = 'card-' + Date.now();
-        newCard.innerHTML = `
-            <div class="flex justify-between items-start mb-2">
-                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${typeColors[type] || 'bg-slate-100'}">${type}</span>
-                <span class="text-[10px] font-bold uppercase px-2 py-0.5 rounded border ${riskColors[risk] || 'bg-slate-100'}">${risk}</span>
-            </div>
-            <h4 class="font-bold text-slate-800 text-sm mb-1">${title}</h4>
-            <p class="text-xs text-slate-500 leading-relaxed">${desc}</p>
-        `;
-
-        newCard.addEventListener('dragstart', (e) => {
-            e.dataTransfer.setData('text/plain', newCard.id);
-            setTimeout(() => { newCard.classList.add('opacity-50'); }, 0);
-        });
-
-        newCard.addEventListener('dragend', () => {
-            newCard.classList.remove('opacity-50');
-            saveBoardState();
-        });
-
-        document.getElementById('col-ideation').appendChild(newCard);
-        updateCounts();
-        saveBoardState();
+        const newId = 'card-' + Date.now();
+        boardData['col-ideation'].push({ id: newId, title, type, risk, desc });
+        localStorage.setItem('kanbanBoardData', JSON.stringify(boardData));
+        renderAIModelProducts(container); // Re-render to get listeners attached cleanly
     });
 
     return container;

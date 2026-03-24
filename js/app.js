@@ -95,8 +95,15 @@ function handleRoute() {
         appEl.innerHTML = ''; // Clear current
         
         // Execute render factory
-        renderFunc(appEl);
-
+        try {
+            renderFunc(appEl);
+        } catch (renderError) {
+            console.error(`[Router] Error rendering ${hash}:`, renderError);
+            appEl.innerHTML = `<div class="p-12 text-center text-red-500 font-bold bg-red-50 rounded-2xl border border-red-100 mx-4 mt-8">
+                Failed to render this module. Please check the console or reload.
+            </div>`;
+        }
+ 
         // Inject Profile Missing Banner if needed
         if (!companyData && hash !== 'landing') {
             const banner = document.createElement('div');

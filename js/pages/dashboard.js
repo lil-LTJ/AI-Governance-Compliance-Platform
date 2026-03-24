@@ -87,14 +87,83 @@ export function renderDashboard(container) {
     // --- Tab Logic ---
     const tabBtns = container.querySelectorAll('.tab-btn');
     const tabPanes = container.querySelectorAll('.tab-pane');
+
+    const activateTab = (targetId) => {
+        tabBtns.forEach(b => { b.classList.remove('text-purple-700','border-purple-700'); b.classList.add('text-slate-500','border-transparent'); });
+        tabPanes.forEach(p => { p.classList.remove('block'); p.classList.add('hidden'); });
+        const matchBtn = container.querySelector(`.tab-btn[data-target="${targetId}"]`);
+        if (matchBtn) { matchBtn.classList.add('text-purple-700','border-purple-700'); matchBtn.classList.remove('text-slate-500','border-transparent'); }
+        const pane = document.getElementById(targetId);
+        if (pane) { pane.classList.remove('hidden'); pane.classList.add('block'); }
+    };
+
     tabBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            tabBtns.forEach(b => { b.classList.remove('text-purple-700', 'border-purple-700'); b.classList.add('text-slate-500', 'border-transparent'); });
-            btn.classList.add('text-purple-700', 'border-purple-700'); btn.classList.remove('text-slate-500', 'border-transparent');
-            tabPanes.forEach(p => { p.classList.remove('block'); p.classList.add('hidden'); });
-            document.getElementById(btn.getAttribute('data-target')).classList.remove('hidden'); document.getElementById(btn.getAttribute('data-target')).classList.add('block');
-        });
+        btn.addEventListener('click', () => activateTab(btn.getAttribute('data-target')));
     });
+
+    // Deep-link from Controls Mapping: if dashMountTab is set, switch to that phase
+    const mountTab = localStorage.getItem('dashMountTab');
+    if (mountTab) {
+        activateTab(mountTab);
+        localStorage.removeItem('dashMountTab');
+        // Scroll to top and flash a contextual banner
+        container.scrollIntoView({ behavior: 'smooth' });
+        const banner = document.createElement('div');
+        banner.className = 'fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-indigo-600 text-white text-sm font-bold px-6 py-3 rounded-full shadow-xl animate-bounce';
+        banner.textContent = '📋 Fill in this section to generate your missing evidence artifact ↓';
+        document.body.appendChild(banner);
+        setTimeout(() => banner.remove(), 4000);
+    }
+
+    // --- PDF Generation Helper ---
+    const generatePhasePDF = (phaseLabel, rows) => {
+        if (!window.jspdf) { alert('PDF library not loaded. Please refresh the page.'); return; }
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+        const margin = 50; let y = margin;
+        const companyData = JSON.parse(localStorage.getItem('companyData')) || {};
+        const companyName = companyData.companyName || 'Organisation';
+
+        // Header
+        doc.setFillColor(67, 56, 202);
+        doc.rect(0, 0, doc.internal.pageSize.getWidth(), 70, 'F');
+        doc.setTextColor(255,255,255);
+        doc.setFontSize(18); doc.setFont('helvetica','bold');
+        doc.text(`${companyName} — AI Governance`, margin, 30);
+        doc.setFontSize(13); doc.setFont('helvetica','normal');
+        doc.text(`${phaseLabel} Artifact`, margin, 50);
+        doc.setFontSize(9);
+        doc.text(`Generated: ${new Date().toLocaleDateString('en-GB', {day:'2-digit',month:'long',year:'numeric'})}`, margin, 64);
+
+        y = 90;
+        doc.setTextColor(30,30,30);
+
+        rows.forEach(({ label, value }) => {
+            if (!value || value.toString().trim() === '') return;
+            if (y > 750) { doc.addPage(); y = margin; }
+            doc.setFontSize(9); doc.setFont('helvetica','bold'); doc.setTextColor(67,56,202);
+            doc.text(label.toUpperCase(), margin, y); y += 14;
+            doc.setFont('helvetica','normal'); doc.setTextColor(40,40,40); doc.setFontSize(10);
+            const lines = doc.splitTextToSize(value.toString(), doc.internal.pageSize.getWidth() - margin*2);
+            lines.forEach(line => {
+                if (y > 760) { doc.addPage(); y = margin; }
+                doc.text(line, margin, y); y += 14;
+            });
+            y += 6;
+            doc.setDrawColor(220,220,220); doc.line(margin, y, doc.internal.pageSize.getWidth()-margin, y); y += 10;
+        });
+
+        // Footer
+        const total = doc.internal.getNumberOfPages();
+        for (let i = 1; i <= total; i++) {
+            doc.setPage(i);
+            doc.setFontSize(8); doc.setTextColor(150,150,150);
+            doc.text(`${companyName} | ${phaseLabel} | Page ${i} of ${total} | AI Governance Compliance Platform`, margin, doc.internal.pageSize.getHeight()-20);
+        }
+
+        const fileName = `${phaseLabel.replace(/\s+/g,'-').replace(/:/g,'')}.pdf`;
+        doc.save(fileName);
+    };
 
     const boolUI = (bool) => `px-2 py-0.5 rounded-md text-xs font-bold ${bool?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'}`;
 
@@ -388,6 +457,108 @@ export function renderDashboard(container) {
     document.getElementById('btn-download-5').addEventListener('click', () => { commitP5(); downloadJSON(state5, 'phase5_data'); });
     document.getElementById('btn-complete-6').addEventListener('click', () => { commitP6(); state6.completed=true; savePhase6Data(state6); updateSummaries(); });
     document.getElementById('btn-download-6').addEventListener('click', () => { commitP6(); downloadJSON(state6, 'phase6_data'); });
+
+    // --- PDF Artifact Export Buttons ---
+    const addPdfBtn = (paneId, phaseLabel, rowsFn) => {
+        const pane = document.getElementById(paneId);
+        if (!pane) return;
+        const btn = document.createElement('button');
+        btn.className = 'mt-6 flex items-center gap-2 px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-lg shadow-md transition-transform hover:-translate-y-0.5';
+        btn.innerHTML = `<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>Download ${phaseLabel} Artifact (PDF)`;
+        btn.addEventListener('click', rowsFn);
+        pane.appendChild(btn);
+    };
+
+    addPdfBtn('phase1-pane', 'Phase 1: Kickoff', () => {
+        commitP1();
+        generatePhasePDF('Phase 1: Project Kickoff & Scoping', [
+            { label: 'Mandate Document Title', value: state1.mandate.title },
+            { label: 'Approving Authority',    value: state1.mandate.authority },
+            { label: 'Purpose of Mandate',     value: state1.mandate.purpose },
+            { label: 'Granted Authorities',    value: state1.mandate.authorities.join(', ') },
+            { label: 'Resource Commitments',   value: state1.mandate.commitments },
+            { label: 'In-Scope Entities',      value: state1.scope.inScope },
+            { label: 'Out-of-Scope',           value: state1.scope.outScope },
+            { label: 'Geographic Scope',       value: state1.scope.geography },
+            { label: 'Quantitative Risk',      value: state1.risk.quant },
+            { label: 'Qualitative Risk',       value: state1.risk.qual },
+            { label: 'Financial Risk',         value: state1.risk.financial },
+            { label: 'AI Asset Register',      value: state1.assets.map(a => `${a.id||''}: ${a.name||''} (Tier: ${a.tier||''})`).join('\n') }
+        ]);
+    });
+
+    addPdfBtn('phase2-pane', 'Phase 2: Governance', () => {
+        commitP2();
+        generatePhasePDF('Phase 2: Governance Structure', [
+            { label: 'AIMS Lead Accountability',  value: state2.lead.accountability },
+            { label: 'Core Responsibilities',     value: state2.lead.responsibilities.join(', ') },
+            { label: 'Delegated Authorities',     value: state2.lead.authorities.join(', ') },
+            { label: 'KPIs',                      value: state2.lead.kpis },
+            { label: 'Committee Purpose',         value: state2.committee.purpose },
+            { label: 'Committee Membership',      value: state2.committee.membership.join(', ') },
+            { label: 'Meeting Cadence',           value: state2.committee.cadence },
+            { label: 'Quorum Requirement',        value: state2.committee.quorum },
+            { label: 'Escalation Path',           value: state2.committee.escalation }
+        ]);
+    });
+
+    addPdfBtn('phase3-pane', 'Phase 3: Policy', () => {
+        commitP3();
+        generatePhasePDF('Phase 3: Policy Development', [
+            { label: 'Ethics Policy Statement',       value: state3.ethics.statement },
+            { label: 'Fairness Rules',                value: state3.ethics.fairness },
+            { label: 'Transparency Requirements',     value: state3.ethics.transparency },
+            { label: 'Human Oversight Definition',    value: state3.ethics.oversight },
+            { label: 'Prohibited Use Cases',          value: state3.ethics.prohibited },
+            { label: 'Non-Negotiable Requirements',   value: state3.ethics.nonNegotiable },
+            { label: 'Risk Management Framework',     value: state3.risk.framework },
+            { label: 'Risk Matrix Methodology',       value: state3.risk.matrix },
+            { label: 'Regulatory Mapping',            value: state3.risk.regulatory },
+            { label: 'Data Lineage',                  value: state3.dataGov.lineage },
+            { label: 'Data Quality Standards',        value: state3.dataGov.quality },
+            { label: 'Privacy by Design',             value: state3.dataGov.pbd },
+            { label: 'IP Statement',                  value: state3.dataGov.ip }
+        ]);
+    });
+
+    addPdfBtn('phase4-pane', 'Phase 4: Triage & Lineage', () => {
+        commitP4();
+        generatePhasePDF('Phase 4: Inventory Triage & Data Lineage', [
+            { label: 'Data Flow Narrative',   value: state4.lineage.flow },
+            { label: 'Lineage Hops',          value: state4.lineage.hops.map(h => `${h.name||''} (Owner: ${h.owner||''})`).join('\n') },
+            { label: 'Data Completeness',     value: state4.quality.completeness },
+            { label: 'Representativeness',    value: state4.quality.representativeness },
+            { label: 'Accuracy Controls',     value: state4.quality.accuracy },
+            { label: 'ETL Governance Gates',  value: state4.etl.gates },
+            { label: 'Access Controls',       value: state4.etl.access },
+            { label: 'Data Steward Sign-off', value: `${state4.quality.signatureName} (${state4.quality.signatureDate})` }
+        ]);
+    });
+
+    addPdfBtn('phase5-pane', 'Phase 5: Risk & Models', () => {
+        commitP5();
+        generatePhasePDF('Phase 5: Risk Assessment & Model Cards', [
+            { label: 'Risk Register', value: state5.risks.map(r => `[${r.id||'?'}] ${r.threat||''} — Likelihood: ${r.likelihood||''}, Impact: ${r.impact||''}`).join('\n') },
+            { label: 'AI Impact Assessments', value: Object.entries(state5.aias).map(([k,v]) => `${k}: ${v.scope||''}`).join('\n') },
+            { label: 'Model Cards Completed', value: Object.keys(state5.cards).join(', ')||'None yet' }
+        ]);
+    });
+
+    addPdfBtn('phase6-pane', 'Phase 6: CI & Culture', () => {
+        commitP6();
+        generatePhasePDF('Phase 6: Continuous Improvement & Culture', [
+            { label: 'PMM Key Metrics',          value: state6.pmm.metrics },
+            { label: 'PMM Feedback Loops',       value: state6.pmm.feedback },
+            { label: 'Drift Detection Method',   value: state6.pmm.drift },
+            { label: 'Review Cycle',             value: state6.pmm.cycle },
+            { label: 'Active Incidents',         value: state6.incidents.map(i => `[${i.id||'?'}] ${i.title||''} — Severity: ${i.severity||''}`).join('\n') },
+            { label: 'Retirement Criteria',      value: state6.retirement.criteria },
+            { label: 'Data Archival Policy',     value: state6.retirement.archival },
+            { label: 'Audit Executive Summary',  value: state6.audit.execSum },
+            { label: 'Non-Conformances',         value: state6.audit.nonconf },
+            { label: 'Management Review Goals',  value: state6.audit.goals }
+        ]);
+    });
 
     // Boot
     renderAssets1(); renderRACI(); renderLetters(); renderTracker3(); renderHops4(); renderTriage4(); renderRisks5(); renderAIAs5(); renderCards5(); renderReports5(); renderIncidents6(); updateSummaries();

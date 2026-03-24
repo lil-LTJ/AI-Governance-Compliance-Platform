@@ -51,9 +51,18 @@ Install the **Live Server** extension, right-click `index.html`, and select "Ope
 
 ## Core Features Implemented
 
-1. **Hash-based Routing Engine**: A lightweight SPA router (`app.js`) that handles view transitions and layout updates dynamically without full page reloads.
-2. **State Protection**: Automatic redirect to the onboarding setup if `localStorage` profile data is missing, ensuring a personalized experience across modules.
-3. **Premium UI/UX**: Includes a custom gradient brand theme, smooth page transitions, responsive navigation, custom scrollbars, and modern glassmorphism panels.
+1. **Hash-based Routing Engine**: A lightweight SPA router (\`app.js\`) that handles view transitions and layout updates dynamically without full page reloads.
+2. **State Protection**: Automatic redirect to the onboarding setup if \`localStorage\` profile data is missing, ensuring a personalized experience across modules.
+3. **Controls Mapping Module**: Evaluates over 15 control points across leading standard frameworks (NIST, ISO 42001, EU AI Act, GDPR, COBIT), calculating compliance with built-in evidence upload handlers.
+4. **6-Phase AI Implementation Dashboard**: A structured guided workflow capturing the AI lifecycle:
+   - **Phase 1: Project Kickoff & Scoping** (Asset Register, Risk Appetite)
+   - **Phase 2: Governance Structure** (Continuous RACI and Lead Tracking)
+   - **Phase 3: Policy Development** (Ethics, Risk Management, Data Governance)
+   - **Phase 4: Inventory Triage & Data Lineage** (ETL logging, automated Tiering)
+   - **Phase 5: Risk Assessment & Model Cards** (Threat likelihood mapping and robust AIA)
+   - **Phase 6: Continuous Improvement & Culture** (PMM Plans, Incident logs, Audits)
+5. **Compliance Dashboard**: Interactive visualizations powered by Chart.js (Radar, Doughnut, and Bar Charts) generating dynamic metrics for board-level review, equipped with a PDF export engine.
+6. **Business Executive Summary**: Translates technical posture into financial implications (calculated fine exposure, operational inefficiencies, and reputational risk) aligned directly with corporate strategic goals on a 12-month Risk Mitigation Roadmap.
 
 ## Reference Frameworks
 
@@ -67,8 +76,6 @@ The platform actively maps controls and requirements against the following globa
 
 ## Next Steps / Future Enhancements
 
-1. **Controls Mapping Module (`controls.js`)**: Integrate the specific standards (COBIT, ISO 42001, NIST AI RMF, EU AI Act, GDPR). Map user inputs to a dynamic checklist structure.
-2. **AI Implementation Board (`AI implementation board.js`)**: Develop a kanban or list-based task tracker (similar to Jira or Trello) to monitor active AI initiatives in the enterprise.
-3. **Dashboards (`dashboard.js`)**: Integrate a charting library (like Chart.js or D3) to display compliance scores and active risks visually.
-4. **Export Functionality (`business-executive-summary.js`)**: Add a feature to generate PDF or Markdown reports on the fly using libraries like jsPDF.
-5. **Backend Transition**: When ready for production, transition the `storage.js` logic to secure API calls mapped to a real backend (e.g., Node.js with PostgreSQL or MongoDB).
+1. **Backend Integration**: Transition the \`storage.js\` logic to secure RESTful API calls mapped to a persistent database (e.g., Node.js with PostgreSQL or MongoDB).
+2. **Multi-User Role Access (RBAC)**: Expand the platform to allow distinct login profiles for Legal, Data Science, and CISO teams.
+3. **Automated Evidence Scanning**: Integrate an LLM microservice to parse PDF evidence uploads and automatically verify fulfillment of controls mapping parameters.

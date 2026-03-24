@@ -150,7 +150,7 @@ export function renderLanding(container) {
     container.innerHTML = template;
 
     // Attach event listener to form
-    const form = document.getElementById('onboarding-form');
+    const form = container.querySelector('#onboarding-form');
     form.addEventListener('submit', (e) => {
         e.preventDefault();
 

@@ -6,7 +6,7 @@
 import { loadCompanyData } from './storage.js';
 import { renderLanding } from './pages/landing.js';
 import { renderControls } from './pages/controls.js';
-import { renderAIImplementationBoard } from './pages/AI implementation board.js';
+import { renderAIImplementationBoard } from './pages/ai-implementation-board.js';
 import { renderDashboard } from './pages/dashboard.js';
 import { renderComplianceDashboard } from './pages/compliance-dashboard.js';
 import { renderExecutiveSummary } from './pages/business-executive-summary.js';

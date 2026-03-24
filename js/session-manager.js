@@ -25,7 +25,7 @@ export function saveAuditSession() {
         if (val) session[k] = JSON.parse(val);
     });
 
-    const company = session.companyData ? session.companyData.companyName || 'Audit' : 'Audit';
+    const company = session['ai_gov_company_data'] ? session['ai_gov_company_data'].companyName || 'Audit' : 'Audit';
     const date = new Date().toISOString().split('T')[0];
     const filename = `AIGov_Session_${company.replace(/\s+/g, '_')}_${date}.json`;
 
@@ -50,7 +50,7 @@ export function loadAuditSession(file) {
                         localStorage.setItem(k, JSON.stringify(session[k]));
                     }
                 });
-                resolve(session.companyData ? session.companyData.companyName : 'Unknown');
+                resolve(session['ai_gov_company_data'] ? session['ai_gov_company_data'].companyName : 'Unknown');
             } catch (err) {
                 reject(new Error('Invalid session file. Please use a valid AIGov session JSON.'));
             }

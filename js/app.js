@@ -79,11 +79,8 @@ function handleRoute() {
 
     const companyData = loadCompanyData();
 
-    // Guard clause: if missing data and not on landing, force redirect
-    if (!companyData && hash !== 'landing') {
-        window.location.hash = 'landing';
-        return;
-    }
+    // Guard clause removed: we now allow all pages to render.
+    // Instead, we will inject a notice banner later if data is missing.
 
     // Set active route and update UI
     updateNavigation(hash, companyData);
@@ -99,6 +96,30 @@ function handleRoute() {
         
         // Execute render factory
         renderFunc(appEl);
+
+        // Inject Profile Missing Banner if needed
+        if (!companyData && hash !== 'landing') {
+            const banner = document.createElement('div');
+            banner.id = 'profile-missing-banner';
+            banner.className = 'w-full max-w-[90rem] mx-auto px-4 mt-4 slide-up';
+            banner.innerHTML = `
+                <div class="bg-amber-50 border border-amber-200 rounded-2xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <div class="p-2 bg-amber-100 text-amber-700 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        </div>
+                        <div>
+                            <p class="text-sm font-bold text-amber-900">Organization Profile Not Set</p>
+                            <p class="text-xs text-amber-700 font-medium">Please initialize your profile to unlock full dashboard automation and report persistence.</p>
+                        </div>
+                    </div>
+                    <a href="#landing" class="px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold rounded-lg shadow-sm transition-transform hover:scale-105">
+                        Set Up Profile Now
+                    </a>
+                </div>
+            `;
+            appEl.prepend(banner);
+        }
         
         // Fade in effect
         appEl.style.opacity = '1';

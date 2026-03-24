@@ -4,7 +4,7 @@
  */
 
 const SESSION_KEYS = [
-    'companyData',
+    'ai_gov_company_data',  // matches STORAGE_KEY in storage.js
     'controlStatuses',
     'controlEvidence',
     'phase1Data',
@@ -14,7 +14,8 @@ const SESSION_KEYS = [
     'phase5Data',
     'phase6Data',
     'kanbanBoardData',
-    'draftReportData'
+    'draftReportData',
+    'annualRevenue'
 ];
 
 export function saveAuditSession() {

@@ -85,7 +85,7 @@ export function renderExecutiveSummary(container) {
 
         const goals = company.goals && company.goals.length > 0 ? company.goals : ["Increase Operational Efficiency", "Accelerate Market Entry", "Enhance Customer Trust"];
         
-        container.innerHTML = \`
+        container.innerHTML = `
             <div class="w-full max-w-[90rem] mx-auto fade-in pt-6 pb-20 px-4" id="exec-content">
                 <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200" data-html2canvas-ignore="false">
                     <div>
@@ -95,12 +95,12 @@ export function renderExecutiveSummary(container) {
                             </div>
                             Business Executive Summary
                         </h1>
-                        <p class="mt-2 text-slate-600 font-medium">Strategic Alignment & Financial Value for \${company.companyName}</p>
+                        <p class="mt-2 text-slate-600 font-medium">Strategic Alignment & Financial Value for ${company.companyName}</p>
                     </div>
                     <div data-html2canvas-ignore="true" class="flex items-center gap-3">
                         <div class="bg-white px-3 py-1.5 rounded-lg border flex items-center shadow-sm">
                             <label class="text-xs font-bold text-slate-500 mr-2">Revenue ($)</label>
-                            <input type="number" id="in-rev" class="w-32 text-sm font-bold text-slate-800 outline-none" value="\${storedRev}">
+                            <input type="number" id="in-rev" class="w-32 text-sm font-bold text-slate-800 outline-none" value="${storedRev}">
                         </div>
                         <button id="btn-export-exec" class="px-5 py-2.5 bg-gradient-to-r from-slate-800 to-slate-900 hover:from-slate-700 hover:to-slate-800 text-white shadow-lg text-sm font-bold rounded-lg transition-transform hover:scale-105 flex items-center gap-2">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
@@ -116,10 +116,10 @@ export function renderExecutiveSummary(container) {
                         Board-Level Briefing
                     </h2>
                     <p class="text-slate-300 leading-relaxed text-lg font-light">
-                        <strong>\${company.companyName}</strong> is operating with a baseline AI regulatory compliance coverage of <span class="text-brand-400 font-bold">\${compliancePct}%</span>. 
-                        Currently, there are <span class="text-yellow-400 font-bold">\${highRiskCount} high-risk AI deployments</span> requiring immediate oversight. 
-                        By executing the governance roadmap below, we will effectively mitigate \${fmtC(fins.fineRisk)} in theoretical regulatory exposure, 
-                        securing our strategic goal of <em>"\${goals[0]}"</em> while avoiding catastrophic reputational degradation.
+                        <strong>${company.companyName}</strong> is operating with a baseline AI regulatory compliance coverage of <span class="text-brand-400 font-bold">${compliancePct}%</span>. 
+                        Currently, there are <span class="text-yellow-400 font-bold">${highRiskCount} high-risk AI deployments</span> requiring immediate oversight. 
+                        By executing the governance roadmap below, we will effectively mitigate ${fmtC(fins.fineRisk)} in theoretical regulatory exposure, 
+                        securing our strategic goal of <em>"${goals[0]}"</em> while avoiding catastrophic reputational degradation.
                     </p>
                 </div>
 
@@ -131,9 +131,9 @@ export function renderExecutiveSummary(container) {
                             <h4 class="font-bold text-slate-800">Regulatory Fine Exposure</h4>
                             <div class="w-8 h-8 rounded-full bg-red-100 text-red-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div>
                         </div>
-                        <p class="text-3xl font-extrabold text-red-600 mb-2">\${fmtC(fins.fineRisk)}</p>
-                        <p class="text-xs text-slate-500">Max theoretical penalty: \${fmtC(fins.maxFine)}</p>
-                        <p class="text-sm mt-3 text-slate-600 font-medium">Mitigated by your \${compliancePct}% compliance baseline.</p>
+                        <p class="text-3xl font-extrabold text-red-600 mb-2">${fmtC(fins.fineRisk)}</p>
+                        <p class="text-xs text-slate-500">Max theoretical penalty: ${fmtC(fins.maxFine)}</p>
+                        <p class="text-sm mt-3 text-slate-600 font-medium">Mitigated by your ${compliancePct}% compliance baseline.</p>
                     </div>
 
                     <div class="glass-card rounded-2xl p-6 border-t-4 border-yellow-500 shadow-md">
@@ -141,9 +141,9 @@ export function renderExecutiveSummary(container) {
                             <h4 class="font-bold text-slate-800">Reputational Risk Impact</h4>
                             <div class="w-8 h-8 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path></svg></div>
                         </div>
-                        <p class="text-3xl font-extrabold text-yellow-600 mb-2">\${fmtC(fins.repRisk)}</p>
+                        <p class="text-3xl font-extrabold text-yellow-600 mb-2">${fmtC(fins.repRisk)}</p>
                         <p class="text-xs text-slate-500">Projected loss of trust/customer churn</p>
-                        <p class="text-sm mt-3 text-slate-600 font-medium">Driven by \${highRiskCount} unmitigated high-risk assets.</p>
+                        <p class="text-sm mt-3 text-slate-600 font-medium">Driven by ${highRiskCount} unmitigated high-risk assets.</p>
                     </div>
 
                     <div class="glass-card rounded-2xl p-6 border-t-4 border-blue-500 shadow-md">
@@ -151,9 +151,9 @@ export function renderExecutiveSummary(container) {
                             <h4 class="font-bold text-slate-800">Operational Inefficiency</h4>
                             <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg></div>
                         </div>
-                        <p class="text-3xl font-extrabold text-blue-600 mb-2">\${fmtC(fins.inefficiency)}</p>
+                        <p class="text-3xl font-extrabold text-blue-600 mb-2">${fmtC(fins.inefficiency)}</p>
                         <p class="text-xs text-slate-500">Annual cost of manual AI testing/rework</p>
-                        <p class="text-sm mt-3 text-slate-600 font-medium">Current automation posture: \${Math.round(fins.autoScore * 100)}%.</p>
+                        <p class="text-sm mt-3 text-slate-600 font-medium">Current automation posture: ${Math.round(fins.autoScore * 100)}%.</p>
                     </div>
                 </div>
 
@@ -170,13 +170,13 @@ export function renderExecutiveSummary(container) {
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 text-sm">
-                            \${goals.map((g, i) => \`
+                            ${goals.map((g, i) => `
                             <tr class="hover:bg-slate-50 transition-colors">
-                                <td class="px-6 py-4 font-bold text-slate-800">\${g}</td>
-                                <td class="px-6 py-4 text-slate-600">\${i===0?'Deploy robust Model Cards':'Establish continuous ETL auditing'}</td>
-                                <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-500 rounded text-xs px-2 py-1 font-bold">\${i===0?'EU AI Act Art. 11':'ISO 42001 Cl 8.3'}</span></td>
-                                <td class="px-6 py-4 text-brand-600 font-bold">\${i===0?'Mitigate transparency litigation risk by 90%':'Prevent drift-induced operational downtime'}</td>
-                            </tr>\`).join('')}
+                                <td class="px-6 py-4 font-bold text-slate-800">${g}</td>
+                                <td class="px-6 py-4 text-slate-600">${i===0?'Deploy robust Model Cards':'Establish continuous ETL auditing'}</td>
+                                <td class="px-6 py-4"><span class="px-2 py-1 bg-slate-100 text-slate-500 rounded text-xs px-2 py-1 font-bold">${i===0?'EU AI Act Art. 11':'ISO 42001 Cl 8.3'}</span></td>
+                                <td class="px-6 py-4 text-brand-600 font-bold">${i===0?'Mitigate transparency litigation risk by 90%':'Prevent drift-induced operational downtime'}</td>
+                            </tr>`).join('')}
                         </tbody>
                     </table>
                 </div>
@@ -192,11 +192,11 @@ export function renderExecutiveSummary(container) {
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 md:text-right pr-0 md:pr-8">
                                 <h4 class="text-brand-600 font-bold text-lg mb-1">Q1: Baseline & Triage</h4>
                                 <p class="text-slate-600 text-sm mb-2">Identify and classify all shadow AI assets using the Triage Classification Worksheet.</p>
-                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: \${hasTriage ? 'Complete' : 'Pending Phase 4'}</span>
+                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: ${hasTriage ? 'Complete' : 'Pending Phase 4'}</span>
                             </div>
-                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 \${hasTriage ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">1</div>
+                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 ${hasTriage ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">1</div>
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 pl-0 md:pl-8">
-                                <div class="glass-card p-4 rounded-xl border \${hasTriage?'border-brand-200 bg-brand-50':'border-slate-200'}">
+                                <div class="glass-card p-4 rounded-xl border ${hasTriage?'border-brand-200 bg-brand-50':'border-slate-200'}">
                                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ROI Expectation</p>
                                     <p class="text-sm font-semibold text-slate-800">Reduces shadow-AI fine risk by ~40%</p>
                                 </div>
@@ -206,22 +206,22 @@ export function renderExecutiveSummary(container) {
                         <!-- Q2 -->
                         <div class="flex flex-col md:flex-row items-center justify-between w-full">
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 text-left md:text-right pr-0 md:pr-8 md:hidden block">
-                                <div class="glass-card p-4 rounded-xl border \${hasCards?'border-brand-200 bg-brand-50':'border-slate-200'}">
+                                <div class="glass-card p-4 rounded-xl border ${hasCards?'border-brand-200 bg-brand-50':'border-slate-200'}">
                                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ROI Expectation</p>
                                     <p class="text-sm font-semibold text-slate-800">Neutralize 95% of regulatory visibility gaps</p>
                                 </div>
                             </div>
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 hidden md:block text-right pr-0 md:pr-8">
-                                <div class="glass-card p-4 rounded-xl border \${hasCards?'border-brand-200 bg-brand-50':'border-slate-200'}">
+                                <div class="glass-card p-4 rounded-xl border ${hasCards?'border-brand-200 bg-brand-50':'border-slate-200'}">
                                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ROI Expectation</p>
                                     <p class="text-sm font-semibold text-slate-800">Neutralize 95% of regulatory visibility gaps</p>
                                 </div>
                             </div>
-                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 \${hasCards ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">2</div>
+                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 ${hasCards ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">2</div>
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 pl-0 md:pl-8">
                                 <h4 class="text-brand-600 font-bold text-lg mb-1">Q2: Risk Documentation</h4>
                                 <p class="text-slate-600 text-sm mb-2">Publish comprehensive Model Cards for all Tier 1 & 2 models identified in triage.</p>
-                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: \${hasCards ? 'Complete' : 'Pending Phase 5'}</span>
+                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: ${hasCards ? 'Complete' : 'Pending Phase 5'}</span>
                             </div>
                         </div>
 
@@ -230,13 +230,13 @@ export function renderExecutiveSummary(container) {
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 md:text-right pr-0 md:pr-8">
                                 <h4 class="text-brand-600 font-bold text-lg mb-1">Q3: Continuous Monitoring</h4>
                                 <p class="text-slate-600 text-sm mb-2">Establish automated data drift detection and formally document the PMM framework.</p>
-                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: \${hasPmm ? 'Complete' : 'Pending Phase 6'}</span>
+                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: ${hasPmm ? 'Complete' : 'Pending Phase 6'}</span>
                             </div>
-                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 \${hasPmm ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">3</div>
+                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 ${hasPmm ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">3</div>
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 pl-0 md:pl-8">
-                                <div class="glass-card p-4 rounded-xl border \${hasPmm?'border-brand-200 bg-brand-50':'border-slate-200'}">
+                                <div class="glass-card p-4 rounded-xl border ${hasPmm?'border-brand-200 bg-brand-50':'border-slate-200'}">
                                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ROI Expectation</p>
-                                    <p class="text-sm font-semibold text-slate-800">Saves \${fmtC(fins.inefficiency / 2)} YoY in manual QA</p>
+                                    <p class="text-sm font-semibold text-slate-800">Saves ${fmtC(fins.inefficiency / 2)} YoY in manual QA</p>
                                 </div>
                             </div>
                         </div>
@@ -244,28 +244,28 @@ export function renderExecutiveSummary(container) {
                         <!-- Q4 -->
                         <div class="flex flex-col md:flex-row items-center justify-between w-full">
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 text-left md:text-right pr-0 md:pr-8 md:hidden block">
-                                <div class="glass-card p-4 rounded-xl border \${hasAudit?'border-brand-200 bg-brand-50':'border-slate-200'}">
+                                <div class="glass-card p-4 rounded-xl border ${hasAudit?'border-brand-200 bg-brand-50':'border-slate-200'}">
                                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ROI Expectation</p>
                                     <p class="text-sm font-semibold text-slate-800">Secures formal board ISO/EU AI Act compliance</p>
                                 </div>
                             </div>
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 hidden md:block text-right pr-0 md:pr-8">
-                                <div class="glass-card p-4 rounded-xl border \${hasAudit?'border-brand-200 bg-brand-50':'border-slate-200'}">
+                                <div class="glass-card p-4 rounded-xl border ${hasAudit?'border-brand-200 bg-brand-50':'border-slate-200'}">
                                     <p class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">ROI Expectation</p>
                                     <p class="text-sm font-semibold text-slate-800">Secures formal board ISO/EU AI Act compliance</p>
                                 </div>
                             </div>
-                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 \${hasAudit ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">4</div>
+                            <div class="order-1 w-10 h-10 rounded-full bg-white border-4 ${hasAudit ? 'border-brand-500' : 'border-slate-300'} flex items-center justify-center font-bold absolute left-1 md:relative md:left-auto md:mx-auto">4</div>
                             <div class="order-1 md:w-5/12 ml-12 md:ml-0 pl-0 md:pl-8">
                                 <h4 class="text-brand-600 font-bold text-lg mb-1">Q4: Independent Audit</h4>
                                 <p class="text-slate-600 text-sm mb-2">Conduct an internal Executive Management audit and resolve non-conformities.</p>
-                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: \${hasAudit ? 'Complete' : 'Pending Phase 6'}</span>
+                                <span class="text-xs font-bold bg-slate-100 text-slate-500 px-2 py-1 rounded">Status: ${hasAudit ? 'Complete' : 'Pending Phase 6'}</span>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        \`;
+        `;
 
         // Bind events
         document.getElementById('in-rev').addEventListener('input', (e) => {
@@ -333,7 +333,7 @@ export function renderExecutiveSummary(container) {
                         pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
                     }
 
-                    pdf.save(\`\${company.companyName.replace(/\\s+/g, '_')}_Business_Summary.pdf\`);
+                    pdf.save(`${company.companyName.replace(/\\s+/g, '_')}_Business_Summary.pdf`);
                 } catch (err) {
                     console.error("PDF Generation error", err);
                     alert("Failed to generate PDF. Make sure jsPDF and html2canvas are loaded.");

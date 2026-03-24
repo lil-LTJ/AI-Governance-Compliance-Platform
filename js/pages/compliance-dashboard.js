@@ -108,7 +108,7 @@ export function renderComplianceDashboard(container) {
     }
 
     // --- DOM structure ---
-    container.innerHTML = \`
+    container.innerHTML = `
         <div class="w-full max-w-[90rem] mx-auto fade-in pt-6 pb-20 px-4" id="report-content">
             <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-slate-200" data-html2canvas-ignore="false">
                 <div>
@@ -118,7 +118,7 @@ export function renderComplianceDashboard(container) {
                         </div>
                         Compliance Dashboard
                     </h1>
-                    <p class="mt-2 text-slate-600 font-medium">Enterprise Coverage & Maturity Analysis for \${company.companyName}</p>
+                    <p class="mt-2 text-slate-600 font-medium">Enterprise Coverage & Maturity Analysis for ${company.companyName}</p>
                 </div>
                 <!-- Action Button omitted from PDF via css later if needed -->
                 <div data-html2canvas-ignore="true">
@@ -134,10 +134,10 @@ export function renderComplianceDashboard(container) {
             <div class="mb-8 p-6 glass-card rounded-2xl border border-slate-200 shadow-sm">
                 <h2 class="text-xl font-bold text-slate-800 mb-3">Executive Summary</h2>
                 <p class="text-slate-700 leading-relaxed text-sm">
-                    <strong>\${company.companyName}</strong> currently exhibits an overall control compliance coverage of <strong>\${compliancePct}%</strong> across \${totalControls} evaluated technical and organizational safeguards. 
-                    The internal AI Asset Register maps to <strong>\${p1.assets.length}</strong> AI models/systems, tracing lineage to <strong>\${totalRisks}</strong> documented risk vectors. 
-                    The organization has drafted <strong>\${policiesDrafted}/3</strong> core governance policies (Ethics, Risk, Data Governance). 
-                    \${compliancePct < 50 ? 'Immediate remediation is required to close critical framework gaps.' : 'The organization demonstrates a maturing posture towards continuous AI compliance.'}
+                    <strong>${company.companyName}</strong> currently exhibits an overall control compliance coverage of <strong>${compliancePct}%</strong> across ${totalControls} evaluated technical and organizational safeguards. 
+                    The internal AI Asset Register maps to <strong>${p1.assets.length}</strong> AI models/systems, tracing lineage to <strong>${totalRisks}</strong> documented risk vectors. 
+                    The organization has drafted <strong>${policiesDrafted}/3</strong> core governance policies (Ethics, Risk, Data Governance). 
+                    ${compliancePct < 50 ? 'Immediate remediation is required to close critical framework gaps.' : 'The organization demonstrates a maturing posture towards continuous AI compliance.'}
                 </p>
             </div>
 
@@ -146,16 +146,16 @@ export function renderComplianceDashboard(container) {
                 <div class="glass-card rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Overall Coverage</p>
-                        <p class="text-4xl font-extrabold \${compliancePct>70?'text-green-600':compliancePct>40?'text-yellow-500':'text-red-600'}">\${compliancePct}%</p>
+                        <p class="text-4xl font-extrabold ${compliancePct>70?'text-green-600':compliancePct>40?'text-yellow-500':'text-red-600'}">${compliancePct}%</p>
                     </div>
-                    <div class="w-12 h-12 rounded-full \${compliancePct>70?'bg-green-100 text-green-600':compliancePct>40?'bg-yellow-100 text-yellow-600':'bg-red-100 text-red-600'} flex items-center justify-center">
+                    <div class="w-12 h-12 rounded-full ${compliancePct>70?'bg-green-100 text-green-600':compliancePct>40?'bg-yellow-100 text-yellow-600':'bg-red-100 text-red-600'} flex items-center justify-center">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                     </div>
                 </div>
                 <div class="glass-card rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Identified Risks</p>
-                        <p class="text-4xl font-extrabold text-slate-800">\${totalRisks}</p>
+                        <p class="text-4xl font-extrabold text-slate-800">${totalRisks}</p>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center text-blue-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
@@ -164,7 +164,7 @@ export function renderComplianceDashboard(container) {
                 <div class="glass-card rounded-2xl p-6 border border-slate-200 shadow-sm flex items-center justify-between">
                     <div>
                         <p class="text-sm font-bold text-slate-500 uppercase tracking-wider mb-1">Active Incidents</p>
-                        <p class="text-4xl font-extrabold text-slate-800">\${p6.incidents.length}</p>
+                        <p class="text-4xl font-extrabold text-slate-800">${p6.incidents.length}</p>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
@@ -198,26 +198,26 @@ export function renderComplianceDashboard(container) {
                 <div class="lg:col-span-2 space-y-8">
                     <div class="glass-card rounded-2xl border border-slate-200 shadow-sm p-6">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Non-Compliant Controls</h3>
-                        \${nonCompliantList.length > 0 ? 
-                            \`<ul class="list-none space-y-2 text-sm text-red-700">\${nonCompliantList.map(c => \`<li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>\${c}\`).join('')}</ul>\` : 
+                        ${nonCompliantList.length > 0 ? 
+                            `<ul class="list-none space-y-2 text-sm text-red-700">${nonCompliantList.map(c => `<li class="flex items-center gap-2"><svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>${c}`).join('')}</ul>` : 
                             '<p class="text-sm text-green-700 font-medium bg-green-50 p-3 rounded-lg border border-green-200">No non-compliant controls documented in the matrix.</p>'
                         }
                     </div>
                     <div class="glass-card rounded-2xl border border-slate-200 shadow-sm p-6">
                         <h3 class="text-lg font-bold text-slate-800 mb-4 border-b pb-2">Auto-Generated Recommendations</h3>
                         <ul class="list-disc pl-5 space-y-2 text-sm text-slate-700">
-                            \${govScore < 50 ? '<li><strong>Governance:</strong> Define AIMS Lead KPIs and formally charter an AI Risk Committee (Phase 2).</li>' : ''}
-                            \${privacyScore < 50 ? '<li><strong>Data Privacy:</strong> Complete Data Lineage hops and ensure Data Quality assessments are signed (Phase 4).</li>' : ''}
-                            \${transScore < 50 ? '<li><strong>Transparency:</strong> Ensure all Phase 1 assets possess completed AI Model Cards and Ethics Policies (Phase 3 & 5).</li>' : ''}
-                            \${monScore < 50 ? '<li><strong>Monitoring:</strong> Establish a Post-Market Monitoring schedule and test incident log pipelines (Phase 6).</li>' : ''}
-                            \${highRiskCount > 0 ? \`<li><strong>Risk Mitigation:</strong> Remediate \${highRiskCount} high-severity risk entries in the AI Risk Register.</li>\` : ''}
-                            \${(govScore>=50&&privacyScore>=50&&transScore>=50&&monScore>=50&&highRiskCount===0) ? '<li><strong>Steady State:</strong> Continue executing recurring audits according to Phase 6 review cycle.</li>' : ''}
+                            ${govScore < 50 ? '<li><strong>Governance:</strong> Define AIMS Lead KPIs and formally charter an AI Risk Committee (Phase 2).</li>' : ''}
+                            ${privacyScore < 50 ? '<li><strong>Data Privacy:</strong> Complete Data Lineage hops and ensure Data Quality assessments are signed (Phase 4).</li>' : ''}
+                            ${transScore < 50 ? '<li><strong>Transparency:</strong> Ensure all Phase 1 assets possess completed AI Model Cards and Ethics Policies (Phase 3 & 5).</li>' : ''}
+                            ${monScore < 50 ? '<li><strong>Monitoring:</strong> Establish a Post-Market Monitoring schedule and test incident log pipelines (Phase 6).</li>' : ''}
+                            ${highRiskCount > 0 ? `<li><strong>Risk Mitigation:</strong> Remediate ${highRiskCount} high-severity risk entries in the AI Risk Register.</li>` : ''}
+                            ${(govScore>=50&&privacyScore>=50&&transScore>=50&&monScore>=50&&highRiskCount===0) ? '<li><strong>Steady State:</strong> Continue executing recurring audits according to Phase 6 review cycle.</li>' : ''}
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
-    \`;
+    `;
 
     // --- Render Charts (Chart.js) ---
     // Ensure Charts register properly
@@ -365,7 +365,7 @@ export function renderComplianceDashboard(container) {
                     pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
                 }
 
-                pdf.save(\`\${company.companyName.replace(/\\s+/g, '_')}_AI_Compliance_Report.pdf\`);
+                pdf.save(`${company.companyName.replace(/\\s+/g, '_')}_AI_Compliance_Report.pdf`);
             } catch (err) {
                 console.error("PDF Generation error", err);
                 alert("Failed to generate PDF. See console for details.");

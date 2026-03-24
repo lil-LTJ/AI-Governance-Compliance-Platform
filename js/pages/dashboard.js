@@ -61,7 +61,7 @@ export function renderDashboard(container) {
     };
 
     // 2. Render Shell
-    container.innerHTML = \`
+    container.innerHTML = `
         <div class="w-full max-w-[90rem] mx-auto fade-in pt-6 pb-20 h-full flex flex-col px-4">
             <div class="mb-6 flex flex-col md:flex-row md:items-end justify-between gap-6 pb-4 border-b border-slate-200">
                 <div><h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 flex items-center gap-3"><div class="p-2 bg-purple-100 text-purple-700 rounded-lg"><svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>Implementation Dashboard</h1></div>
@@ -96,18 +96,18 @@ export function renderDashboard(container) {
         });
     });
 
-    const boolUI = (bool) => \`px-2 py-0.5 rounded-md text-xs font-bold \${bool?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'}\`;
+    const boolUI = (bool) => `px-2 py-0.5 rounded-md text-xs font-bold ${bool?'bg-green-100 text-green-700':'bg-slate-100 text-slate-500'}`;
 
     const renderAssets1 = () => {
         const tbody1 = document.getElementById('asset-tbody');
         const empty1 = document.getElementById('empty-assets');
         if(state1.assets.length === 0){tbody1.innerHTML='';empty1.classList.remove('hidden');}
         else{empty1.classList.add('hidden');
-            tbody1.innerHTML = state1.assets.map((a,i)=>\`<tr><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="id" value="\${a.id||''}"></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="name" value="\${a.name||''}"></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="purpose" value="\${a.purpose||''}"></td><td class="px-2 py-1"><select class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="stack"><option value=""></option><option value="API" \${a.stack==='API'?'selected':''}>API</option><option value="In-house" \${a.stack==='In-house'?'selected':''}>In-house</option><option value="Both" \${a.stack==='Both'?'selected':''}>Both</option></select></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="sponsor" value="\${a.sponsor||''}"></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="steward" value="\${a.steward||''}"></td><td class="px-2 py-1"><select class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="tier"><option value=""></option><option value="Unacceptable" \${a.tier==='Unacceptable'?'selected':''}>Unacceptable</option><option value="High" \${a.tier==='High'?'selected':''}>High</option><option value="Limited" \${a.tier==='Limited'?'selected':''}>Limited</option></select></td><td class="px-2 py-1 text-right"><button class="del-a text-red-500 font-bold text-xs" data-idx="\${i}">X</button></td></tr>\`).join('');
+            tbody1.innerHTML = state1.assets.map((a,i)=>`<tr><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="id" value="${a.id||''}"></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="name" value="${a.name||''}"></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="purpose" value="${a.purpose||''}"></td><td class="px-2 py-1"><select class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="stack"><option value=""></option><option value="API" ${a.stack==='API'?'selected':''}>API</option><option value="In-house" ${a.stack==='In-house'?'selected':''}>In-house</option><option value="Both" ${a.stack==='Both'?'selected':''}>Both</option></select></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="sponsor" value="${a.sponsor||''}"></td><td class="px-2 py-1"><input type="text" class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="steward" value="${a.steward||''}"></td><td class="px-2 py-1"><select class="p1-asset p1-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="tier"><option value=""></option><option value="Unacceptable" ${a.tier==='Unacceptable'?'selected':''}>Unacceptable</option><option value="High" ${a.tier==='High'?'selected':''}>High</option><option value="Limited" ${a.tier==='Limited'?'selected':''}>Limited</option></select></td><td class="px-2 py-1 text-right"><button class="del-a text-red-500 font-bold text-xs" data-idx="${i}">X</button></td></tr>`).join('');
         }
     };
 
-    const renderRACI = () => document.getElementById('raci-tbody').innerHTML = state2.raci.map((r,i) => \`<tr><td class="px-4 py-2 font-medium text-slate-700">\${r.activity}</td>\${['aims','ds','legal','ciso','pm'].map(role=> \`<td class="px-4 py-2"><select class="raci-sel p2-input w-full text-xs rounded border-slate-200 p-1 bg-white" data-idx="\${i}" data-role="\${role}"><option value=""></option><option value="R" \${r[role]==='R'?'selected':''}>R</option><option value="A" \${r[role]==='A'?'selected':''}>A</option><option value="C" \${r[role]==='C'?'selected':''}>C</option><option value="I" \${r[role]==='I'?'selected':''}>I</option></select></td>\`).join('')}</tr>\`).join('');
+    const renderRACI = () => document.getElementById('raci-tbody').innerHTML = state2.raci.map((r,i) => `<tr><td class="px-4 py-2 font-medium text-slate-700">${r.activity}</td>${['aims','ds','legal','ciso','pm'].map(role=> `<td class="px-4 py-2"><select class="raci-sel p2-input w-full text-xs rounded border-slate-200 p-1 bg-white" data-idx="${i}" data-role="${role}"><option value=""></option><option value="R" ${r[role]==='R'?'selected':''}>R</option><option value="A" ${r[role]==='A'?'selected':''}>A</option><option value="C" ${r[role]==='C'?'selected':''}>C</option><option value="I" ${r[role]==='I'?'selected':''}>I</option></select></td>`).join('')}</tr>`).join('');
 
     const renderLetters = () => {
         const lc=document.getElementById('letters-container');
@@ -116,13 +116,13 @@ export function renderDashboard(container) {
             const id=a.id||'Unknown';const n=a.name||'Unnamed';
             if(!state2.letters[id]) state2.letters[id]={spName:a.sponsor||'',stName:a.steward||'',spFile:'',stFile:''};
             const ld = state2.letters[id];
-            return \`<div class="border border-slate-200 rounded p-4 bg-white"><h4 class="font-bold text-sm mb-3">\${id}: \${n}</h4><div class="grid grid-cols-2 gap-4"><div class="p-2 bg-slate-50"><span class="text-xs block mb-1">Bus. Sponsor (\${ld.spName})</span><span class="text-xs bg-slate-200 px-2 py-1 rounded cursor-pointer p2-l-upload">Upload<input type="file" class="hidden" data-asset="\${id}" data-type="sp"></span><span class="text-xs ml-2">\${ld.spFile||''}</span></div><div class="p-2 bg-slate-50"><span class="text-xs block mb-1">Tech Steward (\${ld.stName})</span><span class="text-xs bg-slate-200 px-2 py-1 rounded cursor-pointer p2-l-upload">Upload<input type="file" class="hidden" data-asset="\${id}" data-type="st"></span><span class="text-xs ml-2">\${ld.stFile||''}</span></div></div></div>\`;
+            return `<div class="border border-slate-200 rounded p-4 bg-white"><h4 class="font-bold text-sm mb-3">${id}: ${n}</h4><div class="grid grid-cols-2 gap-4"><div class="p-2 bg-slate-50"><span class="text-xs block mb-1">Bus. Sponsor (${ld.spName})</span><span class="text-xs bg-slate-200 px-2 py-1 rounded cursor-pointer p2-l-upload">Upload<input type="file" class="hidden" data-asset="${id}" data-type="sp"></span><span class="text-xs ml-2">${ld.spFile||''}</span></div><div class="p-2 bg-slate-50"><span class="text-xs block mb-1">Tech Steward (${ld.stName})</span><span class="text-xs bg-slate-200 px-2 py-1 rounded cursor-pointer p2-l-upload">Upload<input type="file" class="hidden" data-asset="${id}" data-type="st"></span><span class="text-xs ml-2">${ld.stFile||''}</span></div></div></div>`;
         }).join('');
     };
 
-    const renderTracker3 = () => document.getElementById('track-tbody').innerHTML = state3.tracker.map((t,i) => \`<tr><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="\${i}" data-field="section" value="\${t.section}"></td><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="\${i}" data-field="iso" value="\${t.iso}"></td><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="\${i}" data-field="eu" value="\${t.eu}"></td><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="\${i}" data-field="controlId" value="\${t.controlId}"></td><td class="px-4 py-2 text-right"><button class="del-t text-red-500 font-bold text-xs" data-idx="\${i}">X</button></td></tr>\`).join('');
+    const renderTracker3 = () => document.getElementById('track-tbody').innerHTML = state3.tracker.map((t,i) => `<tr><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="${i}" data-field="section" value="${t.section}"></td><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="${i}" data-field="iso" value="${t.iso}"></td><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="${i}" data-field="eu" value="${t.eu}"></td><td class="px-4 py-2"><input type="text" class="p3-track p3-input w-full text-xs border border-slate-200 rounded p-1" data-idx="${i}" data-field="controlId" value="${t.controlId}"></td><td class="px-4 py-2 text-right"><button class="del-t text-red-500 font-bold text-xs" data-idx="${i}">X</button></td></tr>`).join('');
 
-    const renderHops4 = () => document.getElementById('hop-tbody').innerHTML = state4.lineage.hops.map((h,i) => \`<tr><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="name" value="\${h.name}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="owner" value="\${h.owner}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="basis" value="\${h.basis}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="freq" value="\${h.freq}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="\${i}" data-field="logic" value="\${h.logic}"></td><td class="px-2 py-1 text-right"><button class="del-hop text-red-500 font-bold text-xs" data-idx="\${i}">X</button></td></tr>\`).join('');
+    const renderHops4 = () => document.getElementById('hop-tbody').innerHTML = state4.lineage.hops.map((h,i) => `<tr><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="name" value="${h.name}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="owner" value="${h.owner}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="basis" value="${h.basis}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="freq" value="${h.freq}"></td><td class="px-2 py-1"><input type="text" class="p4-hop p4-input w-full text-xs border-slate-200 p-1" data-idx="${i}" data-field="logic" value="${h.logic}"></td><td class="px-2 py-1 text-right"><button class="del-hop text-red-500 font-bold text-xs" data-idx="${i}">X</button></td></tr>`).join('');
 
     const renderTriage4 = () => {
         const tc = document.getElementById('triage-tbody');
@@ -138,18 +138,18 @@ export function renderDashboard(container) {
             if(t.biometric && t.safety) sugg = 'Unacceptable'; // Just a conceptual rule
             if(!t.classification) t.classification = sugg;
 
-            return \`<tr>
-                <td class="px-4 py-2 text-sm font-medium">\${id}: \${a.name}</td>
-                <td class="px-4 py-2"><input type="checkbox" class="triage-cb p4-input" data-asset="\${id}" data-field="safety" \${t.safety?'checked':''}></td>
-                <td class="px-4 py-2"><input type="checkbox" class="triage-cb p4-input" data-asset="\${id}" data-field="rights" \${t.rights?'checked':''}></td>
-                <td class="px-4 py-2"><input type="checkbox" class="triage-cb p4-input" data-asset="\${id}" data-field="biometric" \${t.biometric?'checked':''}></td>
-                <td class="px-4 py-2"><select class="triage-sel p4-input text-sm border-slate-200 rounded p-1" data-asset="\${id}">
-                    <option value="Minimal" \${t.classification==='Minimal'?'selected':''}>Minimal</option>
-                    <option value="Limited" \${t.classification==='Limited'?'selected':''}>Limited</option>
-                    <option value="High" \${t.classification==='High'?'selected':''}>High</option>
-                    <option value="Unacceptable" \${t.classification==='Unacceptable'?'selected':''}>Unacceptable</option>
+            return `<tr>
+                <td class="px-4 py-2 text-sm font-medium">${id}: ${a.name}</td>
+                <td class="px-4 py-2"><input type="checkbox" class="triage-cb p4-input" data-asset="${id}" data-field="safety" ${t.safety?'checked':''}></td>
+                <td class="px-4 py-2"><input type="checkbox" class="triage-cb p4-input" data-asset="${id}" data-field="rights" ${t.rights?'checked':''}></td>
+                <td class="px-4 py-2"><input type="checkbox" class="triage-cb p4-input" data-asset="${id}" data-field="biometric" ${t.biometric?'checked':''}></td>
+                <td class="px-4 py-2"><select class="triage-sel p4-input text-sm border-slate-200 rounded p-1" data-asset="${id}">
+                    <option value="Minimal" ${t.classification==='Minimal'?'selected':''}>Minimal</option>
+                    <option value="Limited" ${t.classification==='Limited'?'selected':''}>Limited</option>
+                    <option value="High" ${t.classification==='High'?'selected':''}>High</option>
+                    <option value="Unacceptable" ${t.classification==='Unacceptable'?'selected':''}>Unacceptable</option>
                 </select></td>
-            </tr>\`;
+            </tr>`;
         }).join('');
     };
 
@@ -374,7 +374,7 @@ export function renderDashboard(container) {
         if(savePhase1Data(state1)&&savePhase2Data(state2)&&savePhase3Data(state3)&&savePhase4Data(state4)&&savePhase5Data(state5)&&savePhase6Data(state6)) alert('All phases saved.'); else alert('Save failed.');
     });
 
-    const downloadJSON = (state, n) => { const a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(state,null,2)); a.download=\`\${n}.json\`; a.click(); };
+    const downloadJSON = (state, n) => { const a=document.createElement('a'); a.href="data:text/json;charset=utf-8,"+encodeURIComponent(JSON.stringify(state,null,2)); a.download=`${n}.json`; a.click(); };
     
     document.getElementById('btn-complete-1').addEventListener('click', () => { commitP1(); state1.completed=true; savePhase1Data(state1); updateSummaries(); });
     document.getElementById('btn-download-1').addEventListener('click', () => { commitP1(); downloadJSON(state1, 'phase1_data'); });

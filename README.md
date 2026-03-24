@@ -2,9 +2,12 @@
 
 A fully functional Single Page Application (SPA) designed to help organisations manage their AI governance, map compliance controls, and track implementation across global frameworks.
 
+### 🚀 [Live Demo (GitHub Pages)](https://lil-ltj.github.io/AI-Governance-Compliance-Platform/)
+
+
 ## Project Structure
 
-\`\`\`
+```
 ai-gov-platform/
 ├── index.html            # Main HTML shell and layout
 ├── css/
@@ -19,7 +22,7 @@ ai-gov-platform/
 │       ├── dashboard.js
 │       └── business-executive-summary.js
 └── README.md             # This file
-\`\`\`
+```
 
 ## Technologies Used
 
@@ -51,8 +54,8 @@ Install the **Live Server** extension, right-click `index.html`, and select "Ope
 
 ## Core Features Implemented
 
-1. **Hash-based Routing Engine**: A lightweight SPA router (\`app.js\`) that handles view transitions and layout updates dynamically without full page reloads.
-2. **State Protection**: Automatic redirect to the onboarding setup if \`localStorage\` profile data is missing, ensuring a personalized experience across modules.
+1. **Hash-based Routing Engine**: A lightweight SPA router (`app.js`) that handles view transitions and layout updates dynamically without full page reloads.
+2. **State Protection**: Automatic redirect to the onboarding setup if `localStorage` profile data is missing, ensuring a personalized experience across modules.
 3. **Controls Mapping Module**: Evaluates over 15 control points across leading standard frameworks (NIST, ISO 42001, EU AI Act, GDPR, COBIT), calculating compliance with built-in evidence upload handlers.
 4. **6-Phase AI Implementation Dashboard**: A structured guided workflow capturing the AI lifecycle:
    - **Phase 1: Project Kickoff & Scoping** (Asset Register, Risk Appetite)

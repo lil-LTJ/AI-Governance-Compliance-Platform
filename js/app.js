@@ -6,7 +6,7 @@
 import { loadCompanyData } from './storage.js';
 import { renderLanding } from './pages/landing.js';
 import { renderControls } from './pages/controls.js';
-import { renderAIImplementationBoard } from './pages/ai-implementation-board.js';
+import { renderAIModelProducts } from './pages/ai-model-products.js';
 import { renderDashboard } from './pages/dashboard.js';
 import { renderComplianceDashboard } from './pages/compliance-dashboard.js';
 import { renderExecutiveSummary } from './pages/business-executive-summary.js';
@@ -17,7 +17,7 @@ const appEl = document.getElementById('app');
 const routes = {
     'landing': renderLanding,
     'controls': renderControls,
-    'implementation': renderAIImplementationBoard,
+    'ai-model-products': renderAIModelProducts,
     'dashboard': renderDashboard,
     'compliance': renderComplianceDashboard,
     'executive-summary': renderExecutiveSummary

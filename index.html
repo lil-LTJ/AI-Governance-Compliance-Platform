@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Governance Compliance Platform</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#f0fdf4',
+                100: '#dcfce7',
+                200: '#bbf7d0',
+                500: '#22c55e',
+                600: '#16a34a',
+                700: '#15803d',
+                800: '#166534',
+                900: '#14532d',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Library CDNs -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col antialiased">
+    <!-- Navbar -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer group" onclick="window.location.hash='#landing'">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center text-white font-bold text-lg mr-3 shadow-md group-hover:shadow-lg group-hover:scale-105 transition-all duration-300">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
+                    </div>
+                    <span class="font-bold text-2xl tracking-tight text-slate-800 group-hover:text-brand-700 transition-colors">AI<span class="text-brand-600 font-light">Gov</span></span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-1" id="main-nav">
+                    <a href="#landing" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 transition-all duration-200">Home</a>
+                    <a href="#controls" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 transition-all duration-200">Controls Mapping</a>
+                    <a href="#implementation" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 transition-all duration-200">Implementation Board</a>
+                    <a href="#dashboard" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 transition-all duration-200">Implementation Dashboard</a>
+                    <a href="#compliance" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 transition-all duration-200">Compliance Dashboard</a>
+                    <a href="#executive-summary" class="nav-link px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-700 hover:bg-brand-50 transition-all duration-200">Executive Summary</a>
+                </nav>
+
+                <!-- User Greeting -->
+                <div class="hidden md:flex items-center">
+                    <div id="user-greeting" class="flex items-center gap-3 bg-slate-50 border border-slate-100 px-4 py-1.5 rounded-full opacity-0 transition-opacity duration-500">
+                        <div class="w-6 h-6 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 text-xs font-bold">
+                            <span id="company-initials"></span>
+                        </div>
+                        <span class="text-sm font-medium text-slate-600">
+                            Welcome, <span id="company-name-display" class="text-slate-900 font-semibold tracking-tight"></span>
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="flex items-center md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-brand-500 transition-colors" aria-expanded="false" id="mobile-menu-btn">
+                        <span class="sr-only">Open main menu</span>
+                        <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu (Hidden by default) -->
+        <div class="md:hidden hidden bg-white border-t border-slate-100 shadow-xl absolute w-full" id="mobile-menu">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <div id="mobile-user-greeting" class="flex items-center gap-3 px-3 py-3 mb-2 bg-slate-50 rounded-lg border border-slate-100 hidden">
+                    <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-brand-700 font-bold">
+                        <span id="mobile-company-initials"></span>
+                    </div>
+                    <span class="text-sm font-medium text-slate-600">
+                        Welcome, <span id="mobile-company-name-display" class="text-slate-900 font-bold"></span>
+                    </span>
+                </div>
+                <a href="#landing" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-900 bg-slate-50 hover:bg-slate-100 transition-colors">Home</a>
+                <a href="#controls" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">Controls Mapping</a>
+                <a href="#implementation" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">Implementation Board</a>
+                <a href="#dashboard" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">Implementation Dashboard</a>
+                <a href="#compliance" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">Compliance Dashboard</a>
+                <a href="#executive-summary" class="block px-3 py-2.5 rounded-lg text-base font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-colors">Executive Summary</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main id="app" class="flex-grow flex flex-col items-center justify-start py-8 px-4 sm:px-6 lg:px-8 w-full transition-all duration-300">
+        <!-- Content gets injected here -->
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-2">
+                <svg class="w-5 h-5 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+                <p class="text-sm font-medium text-slate-600">Enterprise AI Compliance Engine</p>
+            </div>
+            <p class="text-center text-sm text-slate-400">&copy; <span id="current-year"></span> AI Governance Platform. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts (ES Modules) -->
+    <script>document.getElementById('current-year').textContent = new Date().getFullYear();</script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

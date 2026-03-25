@@ -2,7 +2,7 @@
 
 A fully functional Single Page Application (SPA) designed to help organisations manage their AI governance, map compliance controls, and track implementation across global frameworks.
 
-### 🚀 [Live Demo (GitHub Pages)](https://lil-ltj.github.io/AI-Governance-Compliance-Platform/)
+### 🚀 [Live Demo (GitHub Pages) link](https://lil-ltj.github.io/AI-Governance-Compliance-Platform/)
 
 
 ## Project Structure
